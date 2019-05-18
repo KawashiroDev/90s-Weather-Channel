@@ -135,14 +135,14 @@ def mainscreen(*args):
     w.create_text(245, 205, text="%" , font=weather_font, fill='white', justify='center')
 
     #cloud info
-    w.create_text(415, 205, text=str(data.condition.text) , font=weather_font, fill='white', justify='center')
+    w.create_text(425, 205, text=str(data.condition.text) , font=weather_font, fill='white', justify='center')
 
     #wind
-    w.create_text(395, 170, text="WIND  " , font=weather_font, fill='white', justify='center')
-    w.create_text(455, 170, text=str(data.wind.direction) , font=weather_font, fill='white', justify='center')
+    w.create_text(385, 170, text="WIND  " , font=weather_font, fill='white', justify='center')
+    w.create_text(445, 170, text=str(data.wind.direction) , font=weather_font, fill='white', justify='center')
     #this outputs in degrees, would be a good idea to convert to cardinal directions
-    w.create_text(510, 170, text=str(data.wind.speed) , font=weather_font, fill='white', justify='center')
-    w.create_text(580, 170, text="KM/H" , font=weather_font, fill='white', justify='center')
+    w.create_text(500, 170, text=str(data.wind.speed) , font=weather_font, fill='white', justify='center')
+    w.create_text(570, 170, text="KM/H" , font=weather_font, fill='white', justify='center')
 
     #Visibilty
     w.create_text(260, 270, text="VISIBILITY" , font=weather_font, fill='white', justify='center')
