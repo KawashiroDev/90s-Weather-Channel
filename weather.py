@@ -1,4 +1,5 @@
 #90's weather channel display thingy by 99710
+#Program version 1.1
 #inspired by the weather displays that enviroment canada used in the 80s/90s
 #https://www.youtube.com/watch?v=fco9mR2Uzko was used as reference for this
 #should note enviroment canada used different layouts such as this one from 86 https://www.youtube.com/watch?v=Pp4-Gsz2i8I
@@ -16,12 +17,11 @@ root = Tk()
 
 ###Parameters###
 
-# A raspberry pi (using composite) runs at 720x480?
-#i tested this with mine, PAL i think is 720x576 and NTSC is 720x480
+# A raspberry pi (using NTSC composite) runs at 720x480
 window_size = "720x480"
 #title of the window, not visible if using fullscreen
 window_title = 'enviroment_canada'
-#uncomment to enable fullscreen, only do this on a pi running composite
+#uncomment to enable fullscreen, only do this on a pi running composite, make sure to disable overscan in config.txt
 #root.attributes("-fullscreen", True)
 
 #yahoo weather API keys
@@ -40,6 +40,22 @@ screen_time = 20000
 #startup
 print('90s Weather channel by 99710')
 print("Initializing...")
+
+if Y_id == "":
+    print("Error: No Yahoo weather API keys entered, program will exit")
+    time.sleep(5)
+    quit()
+
+if weather_location == "":
+    print("Error: No location specified, program will exit")
+    time.sleep(5)
+    quit()
+
+if weather_location == "Gensokyo":
+    print("Error: Yukari wants to know your location")
+    time.sleep(5)
+    quit()    
+    
 #weather_location = input('Enter a location: ')
 
 def show_time():
@@ -132,27 +148,27 @@ def mainscreen(*args):
     #humidity
     w.create_text(150, 205, text="HUM  " , font=weather_font, fill='white', justify='center')
     w.create_text(210, 205, text=str(data.atmosphere.humidity) , font=weather_font, fill='white', justify='center')
-    w.create_text(245, 205, text="%" , font=weather_font, fill='white', justify='center')
+    w.create_text(250, 205, text="%" , font=weather_font, fill='white', justify='center')
 
     #cloud info
-    w.create_text(425, 205, text=str(data.condition.text) , font=weather_font, fill='white', justify='center')
+    w.create_text(465, 205, text=str(data.condition.text) , font=weather_font, fill='white', justify='center')
 
     #wind
-    w.create_text(385, 170, text="WIND  " , font=weather_font, fill='white', justify='center')
-    w.create_text(445, 170, text=str(data.wind.direction) , font=weather_font, fill='white', justify='center')
+    w.create_text(375, 170, text="WIND  " , font=weather_font, fill='white', justify='center')
+    w.create_text(440, 170, text=str(data.wind.direction) , font=weather_font, fill='white', justify='center')
     #this outputs in degrees, would be a good idea to convert to cardinal directions
-    w.create_text(500, 170, text=str(data.wind.speed) , font=weather_font, fill='white', justify='center')
-    w.create_text(570, 170, text="KM/H" , font=weather_font, fill='white', justify='center')
+    w.create_text(505, 170, text=str(data.wind.speed) , font=weather_font, fill='white', justify='center')
+    w.create_text(580, 170, text="KM/H" , font=weather_font, fill='white', justify='center')
 
     #Visibilty
-    w.create_text(260, 270, text="VISIBILITY" , font=weather_font, fill='white', justify='center')
-    w.create_text(370, 270, text=str(data.atmosphere.visibility) , font=weather_font, fill='white', justify='center')
-    w.create_text(425, 270, text="KM" , font=weather_font, fill='white', justify='center')
+    w.create_text(310, 270, text="VISIBILITY" , font=weather_font, fill='white', justify='center')
+    w.create_text(410, 270, text=str(data.atmosphere.visibility) , font=weather_font, fill='white', justify='center')
+    w.create_text(465, 270, text="KM" , font=weather_font, fill='white', justify='center')
 
     #Pressure 
-    w.create_text(260, 305, text="PRESSURE" , font=weather_font, fill='white', justify='center')
-    w.create_text(375, 305, text=str(data.atmosphere.pressure) , font=weather_font, fill='white', justify='center')
-    w.create_text(450, 305, text="KPA" , font=weather_font, fill='white', justify='center')
+    w.create_text(310, 305, text="PRESSURE" , font=weather_font, fill='white', justify='center')
+    w.create_text(425, 305, text=str(data.atmosphere.pressure) , font=weather_font, fill='white', justify='center')
+    w.create_text(490, 305, text="KPA" , font=weather_font, fill='white', justify='center')
 
 #go to the hi_low screen
     root.after(screen_time, hi_lo_screen)
@@ -168,43 +184,43 @@ def hi_lo_screen(*args):
 
     #make the new text
     #title
-    w.create_text(150, 120, text=weather_location, font=weather_font, fill='white', justify='center', tags="location")
-    w.create_text(400, 120, text="WEEKLY FORECAST", font=weather_font, fill='white', justify='center')
+    w.create_text(190, 120, text=weather_location, font=weather_font, fill='white', justify='center', tags="location")
+    w.create_text(450, 120, text="WEEKLY FORECAST", font=weather_font, fill='white', justify='center')
 
     #hi_low_1
     #the [0] controls where in the list it'll read from, 0 being the first
     w.create_text(160, 180, text=str(data.forecasts[0].day), font=weather_font, fill='white', justify='center')
     w.create_text(220, 180, text=str(data.forecasts[0].high) , font=weather_font, fill='white', justify='center')
     w.create_text(265, 180, text=str(data.forecasts[0].low) , font=weather_font, fill='white', justify='center')
-    w.create_text(415, 180, text=str(data.forecasts[0].text) , font=weather_font, fill='white', justify='center')
+    w.create_text(480, 180, text=str(data.forecasts[0].text) , font=weather_font, fill='white', justify='center')
 
     #hi_low_1
     #the [0] controls where in the list it'll read from, 0 being the first
     w.create_text(160, 220, text=str(data.forecasts[1].day), font=weather_font, fill='white', justify='center')
     w.create_text(220, 220, text=str(data.forecasts[1].high) , font=weather_font, fill='white', justify='center')
     w.create_text(265, 220, text=str(data.forecasts[1].low) , font=weather_font, fill='white', justify='center')
-    w.create_text(415, 220, text=str(data.forecasts[1].text) , font=weather_font, fill='white', justify='center')
+    w.create_text(480, 220, text=str(data.forecasts[1].text) , font=weather_font, fill='white', justify='center')
 
     #hi_low_2
     #the [0] controls where in the list it'll read from, 0 being the first
     w.create_text(160, 260, text=str(data.forecasts[2].day), font=weather_font, fill='white', justify='center')
     w.create_text(220, 260, text=str(data.forecasts[2].high) , font=weather_font, fill='white', justify='center')
     w.create_text(265, 260, text=str(data.forecasts[2].low) , font=weather_font, fill='white', justify='center')
-    w.create_text(415, 260, text=str(data.forecasts[2].text) , font=weather_font, fill='white', justify='center')
+    w.create_text(480, 260, text=str(data.forecasts[2].text) , font=weather_font, fill='white', justify='center')
 
     #hi_low_3
     #the [0] controls where in the list it'll read from, 0 being the first
     w.create_text(160, 300, text=str(data.forecasts[3].day), font=weather_font, fill='white', justify='center')
     w.create_text(220, 300, text=str(data.forecasts[3].high) , font=weather_font, fill='white', justify='center')
     w.create_text(265, 300, text=str(data.forecasts[3].low) , font=weather_font, fill='white', justify='center')
-    w.create_text(415, 300, text=str(data.forecasts[3].text) , font=weather_font, fill='white', justify='center')
+    w.create_text(480, 300, text=str(data.forecasts[3].text) , font=weather_font, fill='white', justify='center')
 
     #hi_low_4
     #the [0] controls where in the list it'll read from, 0 being the first
     w.create_text(160, 340, text=str(data.forecasts[4].day), font=weather_font, fill='white', justify='center')
     w.create_text(220, 340, text=str(data.forecasts[4].high) , font=weather_font, fill='white', justify='center')
     w.create_text(265, 340, text=str(data.forecasts[4].low) , font=weather_font, fill='white', justify='center')
-    w.create_text(415, 340, text=str(data.forecasts[4].text) , font=weather_font, fill='white', justify='center')
+    w.create_text(480, 340, text=str(data.forecasts[4].text) , font=weather_font, fill='white', justify='center')
     
 
     #switch back to the main screen after 20s
