@@ -1,4 +1,4 @@
-#90's weather channel display thingy by 99710
+#90's weather channel display thingy by KawashiroDev
 #Program version 1.1
 #inspired by the weather displays that enviroment canada used in the 80s/90s
 #https://www.youtube.com/watch?v=fco9mR2Uzko was used as reference for this
@@ -38,7 +38,7 @@ screen_time = 20000
 
 
 #startup
-print('90s Weather channel by 99710')
+print('90s Weather channel by KawashiroDev')
 print("Initializing...")
 
 if Y_id == "":
